@@ -12,7 +12,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "io.github.adyel.recipy"
+        applicationId 'io.github.adyel.recipe'
         minSdkVersion 22
         targetSdkVersion 30
         versionCode 1
