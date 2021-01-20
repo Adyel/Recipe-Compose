@@ -3,6 +3,7 @@
     package="io.github.adyel.recipe">
 
     <application
+        android:name=".presentation.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Recipy">
 
-        <activity android:name="io.github.adyel.recipe.MainActivity">
+        <activity android:name="io.github.adyel.recipe.presentation.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

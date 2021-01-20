@@ -3,7 +3,9 @@ package io.github.adyel.recipe.repository
 import io.github.adyel.recipe.domain.model.Recipe
 import io.github.adyel.recipe.network.model.RecipeDtoMapper
 import io.github.adyel.recipe.network.service.RecipeService
+import javax.inject.Singleton
 
+@Singleton
 class RecipeRepositoryImpl(
     private val recipeService: RecipeService,
     private val recipeMapper: RecipeDtoMapper

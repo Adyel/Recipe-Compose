@@ -1,4 +1,4 @@
-package io.github.adyel.recipe
+package io.github.adyel.recipe.presentation.ui.recipe_list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,9 +15,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import dagger.hilt.android.AndroidEntryPoint
+import io.github.adyel.recipe.R
 
+@AndroidEntryPoint
 class RecipeListFragment : Fragment(){
+
+
+    val viewModel: RecipeListViewModel by viewModels()
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
