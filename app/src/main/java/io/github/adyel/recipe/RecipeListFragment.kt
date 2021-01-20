@@ -1,4 +1,4 @@
-package io.github.adyel.recipy
+package io.github.adyel.recipe
 
 import android.os.Bundle
 import android.view.LayoutInflater

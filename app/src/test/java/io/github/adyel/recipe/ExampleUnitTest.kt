@@ -1,4 +1,4 @@
-package io.github.adyel.recipy
+package io.github.adyel.recipe
 
 import org.junit.Test
 

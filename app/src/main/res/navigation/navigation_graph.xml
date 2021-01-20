@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/recipeListFragment"
-        android:name="io.github.adyel.recipy.RecipeListFragment"
+        android:name="io.github.adyel.recipe.RecipeListFragment"
         android:label="RecipeListFragment" >
         <action
             android:id="@+id/action_recipeListFragment_to_recipeFragment"
@@ -14,6 +14,6 @@
     </fragment>
     <fragment
         android:id="@+id/recipeFragment"
-        android:name="io.github.adyel.recipy.RecipeFragment"
+        android:name="io.github.adyel.recipe.RecipeFragment"
         android:label="RecipeFragment" />
 </navigation>
