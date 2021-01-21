@@ -35,6 +35,11 @@ class RecipeListFragment : Fragment(){
         return ComposeView(requireContext())
             .apply {
                 setContent {
+
+                    val recipes = viewModel.recipes.value
+
+
+
                     Column (modifier = Modifier.padding(16.dp)){
                         Text(
                             text = "Recipe List",
