@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
@@ -19,6 +20,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.adyel.recipe.R
+import io.github.adyel.recipe.domain.model.Recipe
+import io.github.adyel.recipe.presentation.components.RecipeCard
 
 @AndroidEntryPoint
 class RecipeListFragment : Fragment(){
@@ -37,26 +40,34 @@ class RecipeListFragment : Fragment(){
                 setContent {
 
                     val recipes = viewModel.recipes.value
-
-
-
-                    Column (modifier = Modifier.padding(16.dp)){
-                        Text(
-                            text = "Recipe List",
-                            style = TextStyle(
-                                fontSize = TextUnit.Companion.Sp(21)
-                            )
-                        )
-                        Spacer(modifier = Modifier.padding(10.dp))
-
-                        Button(
-                            onClick = {
-                                findNavController().navigate(R.id.action_recipeListFragment_to_recipeFragment)
-                        }) {
-                            Text(text = "To Recipe Fragment")
+                    
+                    LazyColumn(content = {
+                        itemsIndexed(
+                                items = recipes
+                        ) { index: Int, recipe: Recipe ->
+                                RecipeCard(recipe = recipe, onClick = {})
                         }
+                    })
 
-                    }
+
+
+//                    Column (modifier = Modifier.padding(16.dp)){
+//                        Text(
+//                            text = "Recipe List",
+//                            style = TextStyle(
+//                                fontSize = TextUnit.Companion.Sp(21)
+//                            )
+//                        )
+//                        Spacer(modifier = Modifier.padding(10.dp))
+//
+//                        Button(
+//                            onClick = {
+//                                findNavController().navigate(R.id.action_recipeListFragment_to_recipeFragment)
+//                        }) {
+//                            Text(text = "To Recipe Fragment")
+//                        }
+//
+//                    }
                 }
             }
     }
