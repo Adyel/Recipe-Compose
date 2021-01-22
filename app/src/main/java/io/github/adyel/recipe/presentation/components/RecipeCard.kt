@@ -9,12 +9,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.adyel.recipe.R
 import io.github.adyel.recipe.domain.model.Recipe
+import io.github.adyel.recipe.utils.DEFAULT_IMAGE_PLACEHOLDER
+import io.github.adyel.recipe.utils.loadPicture
 
 @Composable
 fun RecipeCard(
@@ -24,33 +27,39 @@ fun RecipeCard(
     Card(
             shape = MaterialTheme.shapes.small,
             modifier = Modifier
-                    .padding(
-                            bottom = 6.dp,
-                            top = 6.dp
-                    )
-                    .fillMaxWidth()
-                    .clickable(onClick = onClick),
+                .padding(
+                    bottom = 6.dp,
+                    top = 6.dp
+                )
+                .fillMaxWidth()
+                .clickable(onClick = onClick),
             elevation = 8.dp,
     ) {
         Column {
             recipe.featuredImage?.let {
-                Image(
-                        bitmap = imageResource(id = R.drawable.empty_plate),
+
+                val image = loadPicture(url = it, defaultImage = DEFAULT_IMAGE_PLACEHOLDER).value
+
+                image?.let {
+                    Image(
+                        bitmap = image.asImageBitmap(),
                         modifier = Modifier
-                                .fillMaxWidth()
-                                .preferredHeight(255.dp),
+                            .fillMaxWidth()
+                            .preferredHeight(255.dp),
                         contentScale = ContentScale.Crop
-                )
+                    )
+                }
+
                 recipe.title?.let {
                     Row(
                             modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                            top = 10.dp,
-                                            bottom = 10.dp,
-                                            start = 10.dp,
-                                            end = 10.dp,
-                                    )
+                                .fillMaxWidth()
+                                .padding(
+                                    top = 10.dp,
+                                    bottom = 10.dp,
+                                    start = 10.dp,
+                                    end = 10.dp,
+                                )
                     ) {
                         Text(
                                 text =  it,
