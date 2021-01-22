@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Recipy">
+        android:theme="@style/Theme.Recipe">
 
         <activity android:name="io.github.adyel.recipe.presentation.MainActivity">
             <intent-filter>

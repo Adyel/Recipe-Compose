@@ -4,22 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import io.github.adyel.recipe.R
 import io.github.adyel.recipe.domain.model.Recipe
 import io.github.adyel.recipe.presentation.components.RecipeCard
 
@@ -27,7 +26,7 @@ import io.github.adyel.recipe.presentation.components.RecipeCard
 class RecipeListFragment : Fragment(){
 
 
-    val viewModel: RecipeListViewModel by viewModels()
+    private val viewModel: RecipeListViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -40,34 +39,58 @@ class RecipeListFragment : Fragment(){
                 setContent {
 
                     val recipes = viewModel.recipes.value
-                    
-                    LazyColumn(content = {
-                        itemsIndexed(
-                                items = recipes
-                        ) { index: Int, recipe: Recipe ->
-                                RecipeCard(recipe = recipe, onClick = {})
+                    val query = viewModel.query.value
+
+                    Column {
+
+                        Surface(
+                            elevation = 8.dp,
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colors.primary,
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                TextField(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp),
+                                    value = query,
+                                    onValueChange = {
+                                        viewModel.onQueryChange(it)
+                                    },
+                                    label = {
+                                        Text(text = "Search")
+                                    },
+                                    keyboardOptions = KeyboardOptions(
+                                        keyboardType = KeyboardType.Text,
+                                        imeAction = ImeAction.Search,
+                                    ),
+                                    leadingIcon = {
+                                        Icon(Icons.Filled.Search)
+                                    },
+                                    onImeActionPerformed = { imeAction, softwareKeyboardController ->
+                                        if (imeAction == ImeAction.Search) {
+                                            viewModel.newSearch(query)
+                                            softwareKeyboardController?.hideSoftwareKeyboard()
+                                        }
+                                    },
+                                    textStyle = TextStyle(
+                                        color = MaterialTheme.colors.onSurface,
+                                    ),
+                                    backgroundColor = MaterialTheme.colors.surface,
+                                )
+                            }
                         }
-                    })
+                        LazyColumn(content = {
+                            itemsIndexed(
+                                items = recipes
+                            ) { index: Int, recipe: Recipe ->
+                                RecipeCard(recipe = recipe, onClick = {})
+                            }
+                        })
+                    }
 
-
-
-//                    Column (modifier = Modifier.padding(16.dp)){
-//                        Text(
-//                            text = "Recipe List",
-//                            style = TextStyle(
-//                                fontSize = TextUnit.Companion.Sp(21)
-//                            )
-//                        )
-//                        Spacer(modifier = Modifier.padding(10.dp))
-//
-//                        Button(
-//                            onClick = {
-//                                findNavController().navigate(R.id.action_recipeListFragment_to_recipeFragment)
-//                        }) {
-//                            Text(text = "To Recipe Fragment")
-//                        }
-//
-//                    }
                 }
             }
     }
