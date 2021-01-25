@@ -48,7 +48,7 @@ fun RecipeCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .preferredHeight(255.dp),
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.FillBounds
                     )
                 }
 

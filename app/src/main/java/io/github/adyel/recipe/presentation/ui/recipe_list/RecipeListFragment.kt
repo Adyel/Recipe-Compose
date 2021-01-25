@@ -12,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.adyel.recipe.domain.model.Recipe
+import io.github.adyel.recipe.presentation.components.FoodCategoryChip
 import io.github.adyel.recipe.presentation.components.RecipeCard
 
 @AndroidEntryPoint
@@ -41,13 +43,15 @@ class RecipeListFragment : Fragment(){
 
                     val recipes = viewModel.recipes.value
                     val query = viewModel.query.value
+                    val selectedCategory = viewModel.selectedCategory.value
 
                     Column {
 
                         Surface(
                             elevation = 8.dp,
                             modifier = Modifier.fillMaxWidth(),
-                            color = MaterialTheme.colors.primary,
+//                            color = MaterialTheme.colors.primary,
+                        color = Color.White
                         ) {
                             
                             Column {
@@ -74,7 +78,7 @@ class RecipeListFragment : Fragment(){
                                             },
                                             onImeActionPerformed = { imeAction, softwareKeyboardController ->
                                                 if (imeAction == ImeAction.Search) {
-                                                    viewModel.newSearch(query)
+                                                    viewModel.newSearch()
                                                     softwareKeyboardController?.hideSoftwareKeyboard()
                                                 }
                                             },
@@ -87,14 +91,23 @@ class RecipeListFragment : Fragment(){
 
                                 ScrollableRow(
                                         modifier = Modifier.fillMaxWidth()
+                                                .padding(
+                                                        start = 8.dp,
+                                                        end = 8.dp,
+                                                        bottom = 8.dp
+                                                )
                                 ) {
                                     for (category in getAllFoodCategories()){
-                                        Text(
-                                                text = category.value,
-                                                style = MaterialTheme.typography.body2,
-                                                color = MaterialTheme.colors.secondary,
-                                                modifier = Modifier.padding(8.dp)
-                                        )
+                                        FoodCategoryChip(
+                                                catagory = category.value,
+                                                isSelected = selectedCategory == category,
+                                                onSelectedCategoryChanged = {
+                                                    viewModel.onSelectedCategoryChanged(it)
+                                                },
+                                                onExecuteSearch = {
+                                                    viewModel::newSearch
+                                                })
+
                                     }
                                 }
                             }
