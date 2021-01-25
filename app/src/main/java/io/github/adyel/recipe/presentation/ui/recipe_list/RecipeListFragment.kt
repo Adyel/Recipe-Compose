@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.ScrollableRow
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
@@ -48,38 +49,54 @@ class RecipeListFragment : Fragment(){
                             modifier = Modifier.fillMaxWidth(),
                             color = MaterialTheme.colors.primary,
                         ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                TextField(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(8.dp),
-                                    value = query,
-                                    onValueChange = {
-                                        viewModel.onQueryChange(it)
-                                    },
-                                    label = {
-                                        Text(text = "Search")
-                                    },
-                                    keyboardOptions = KeyboardOptions(
-                                        keyboardType = KeyboardType.Text,
-                                        imeAction = ImeAction.Search,
-                                    ),
-                                    leadingIcon = {
-                                        Icon(Icons.Filled.Search)
-                                    },
-                                    onImeActionPerformed = { imeAction, softwareKeyboardController ->
-                                        if (imeAction == ImeAction.Search) {
-                                            viewModel.newSearch(query)
-                                            softwareKeyboardController?.hideSoftwareKeyboard()
-                                        }
-                                    },
-                                    textStyle = TextStyle(
-                                        color = MaterialTheme.colors.onSurface,
-                                    ),
-                                    backgroundColor = MaterialTheme.colors.surface,
-                                )
+                            
+                            Column {
+                                Row(
+                                        modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    TextField(
+                                            modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(8.dp),
+                                            value = query,
+                                            onValueChange = {
+                                                viewModel.onQueryChange(it)
+                                            },
+                                            label = {
+                                                Text(text = "Search")
+                                            },
+                                            keyboardOptions = KeyboardOptions(
+                                                    keyboardType = KeyboardType.Text,
+                                                    imeAction = ImeAction.Search,
+                                            ),
+                                            leadingIcon = {
+                                                Icon(Icons.Filled.Search)
+                                            },
+                                            onImeActionPerformed = { imeAction, softwareKeyboardController ->
+                                                if (imeAction == ImeAction.Search) {
+                                                    viewModel.newSearch(query)
+                                                    softwareKeyboardController?.hideSoftwareKeyboard()
+                                                }
+                                            },
+                                            textStyle = TextStyle(
+                                                    color = MaterialTheme.colors.onSurface,
+                                            ),
+                                            backgroundColor = MaterialTheme.colors.surface,
+                                    )
+                                }
+
+                                ScrollableRow(
+                                        modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    for (category in getAllFoodCategories()){
+                                        Text(
+                                                text = category.value,
+                                                style = MaterialTheme.typography.body2,
+                                                color = MaterialTheme.colors.secondary,
+                                                modifier = Modifier.padding(8.dp)
+                                        )
+                                    }
+                                }
                             }
                         }
                         LazyColumn(content = {
